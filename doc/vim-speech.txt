@@ -1,0 +1,14 @@
+*vim-speech.txt*  Plugin to connect VIM with an external text-to-speech engine. 
+
+Author:  Olaf Schulz <funwithkinect@googlemail.com> 
+License: GPLv3
+
+This plugin is only available if 'compatible' is not set.
+
+INTRODUCTION                                    *vim-speech*
+
+No doc available.
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:
