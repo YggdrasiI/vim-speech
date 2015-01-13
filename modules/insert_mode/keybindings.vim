@@ -16,8 +16,8 @@ set completeopt=menuone
 " Problem: inoremap does not work due <C-1> is a new mapping
 " Todo: Add other key combinations, see help of popupmenu-keys for a list of
 " available keys.
-imap <expr> <C-L> CompleteWordHandler()
-imap <expr> <C-1> StartPopupMenu()
+imap <expr> <C-L><C-W> CompleteWordHandler()
+imap <expr> <C-L><C-5> StartPopupMenu()
 imap <expr> <C-N> PopupAction_Next() 
 imap <expr> <C-P> PopupAction_Prev()
 imap <expr> <C-E> pumvisible() ? PopupAction_Abort() : "\<C-E>"

@@ -77,11 +77,11 @@ function! StartPopupMenu()
 endfunction
 
 function! PopupAction_Next()
-		return PopupAction("\<C-N>\<C-P>\<C-1>", "\<C-N>", "\<C-N>\<C-L>")
+		return PopupAction("\<C-N>\<C-P>\<C-L>\<C-5>", "\<C-N>", "\<C-N>\<C-L>\<C-W>")
 endfunction
 
 function! PopupAction_Prev()
-		return PopupAction("\<C-P>\<C-N>\<C-1>", "\<C-P>", "\<C-P>\<C-L>")
+		return PopupAction("\<C-P>\<C-N>\<C-L>\<C-5>", "\<C-P>", "\<C-P>\<C-L>\<C-W>")
 endfunction
 
 function! PopupAction_Abort()

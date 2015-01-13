@@ -25,4 +25,22 @@ vmap <silent> gE gE<C-L><C-V>
 "vmap <silent> o <C-L><C-1>o<C-L><C-2>
 vnoremap <C-L><C-3> o
 vmap  <silent> o <C-L><C-1><C-L><C-3><C-L><C-2>
+"vnoremap <C-L><C-4> O
+"vmap  <silent> O <C-L><C-1><C-L><C-4><C-L><C-2>
+
+
+" MAPPING play sound for change visual mode
+vmap <expr> <silent> <C-L><C-L> Checkmode('')
+vmap <silent> v v<C-L><C-L>
+vmap <silent> V V<C-L><C-L>
+vmap <silent> <C-V> <C-V><C-L><C-L>
+
+" MAPPING play sound if visual mode will be leaved
+" Note: Do not remap the commands which enter the
+" insert mode. They will be handled by the InsertEnter event.
+vmap <silent> <ESC> <ESC><C-L><C-L>
+vmap <silent> <C-C> <C-C><C-L><C-L>
+vmap <silent> d d<C-L><C-L>
+vmap <silent> y y<C-L><C-L>
+vmap <silent> Y Y<C-L><C-L>
 

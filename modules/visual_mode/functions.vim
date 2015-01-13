@@ -15,7 +15,8 @@ endfunction
 function! VisualSelectionSpell(settings, save_settings) 
 
 	" Merge manual given settings with default values
-	let l:settings = extend(g:vs_visual_selection_settings_last, a:settings)
+	let l:settings = copy(g:vs_visual_selection_settings_last)
+	call extend(l:settings, a:settings)
 	" Optional, save new settings
 	if a:save_settings == 1
 		let g:vs_visual_selection_settings_last = l:settings
@@ -58,7 +59,7 @@ function! VisualSelectionSwapSelectedEnd2()
 	
 	let curpos = getpos(".")
 	let lastpos = g:visual_selection_prev_cursor_position
-	" Note: This positions are the wrong and from the previous selection
+	" Note: The following positions are the wrong and from the previous selection
 	"let selection_start = getpos("'<")
 	"let selection_end = getpos("'>")
 

@@ -73,14 +73,14 @@ nmap <expr> <silent> <leader>s VisualSelectionSpell({}, 0)
 nmap <expr> <silent> gv RestorePreviousSelection()
 
 " MAPPING play sound for entering visual modes
-map <expr> <silent> <C-L><C-4> Checkmode('')
-" Problematic, only one call:
-"nmap <silent> v v<C-L><C-4>
-nmap <silent> V V<C-L><C-4>
-"nmap <silent> <C-V> <C-V><C-L><C-4>
+nmap <expr> <silent> <C-L><C-L> Checkmode('')
+nmap <silent> v v<C-L><C-L>
+nmap <silent> V V<C-L><C-L>
+nmap <silent> <C-V> <C-V><C-L><C-L>
+
 " Workaround, no does not work, too:
-"nnoremap <silent> v v:<C-U>call Checkmode('v')<CR>
-nnoremap <silent> v v:<C-U>call Sping_mode('v')<CR>
+"nnoremap <silent> v :<C-U>call Checkmode('v')<CR>v
+"nnoremap <silent> v :<C-U>call Sping_mode('v')<CR>v
 
 "Replace cmdline with cmdline in insert mode to improve navigation
 " Open command window instead of command line
