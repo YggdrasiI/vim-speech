@@ -34,7 +34,7 @@ nmap <silent> lL :<C-U>call Slinenumber()<CR>
 nmap <silent> lP :<C-U>call Sposition()<CR>
 
 " SECTION Spelling text of following movement operation.
-nmap <silent> ll :<C-U>call Sline(v:count)<CR>
+nmap <silent> ll :<C-U>call Sline(v:count1)<CR>
 
 " Note that yanking set the cursor position on the first yanked character.
 " `] can move the cursor to the last yanked character, but this does not help

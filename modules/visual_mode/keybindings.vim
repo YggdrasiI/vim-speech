@@ -1,17 +1,25 @@
-" SECTION Autospeak
+" NOTE Remapping of l depends on my keyboard layout (Neo 2.0). It would be
+" stupid on QWERTY.
+vmap l <Nop>
+
 " MAPPING Speech Mode
 vmap <expr> <silent> <leader>m Sget_mode(mode())
+vmap <expr> <silent> <leader>l Sline(v:count1)
+"vmap <silent> <leader>l :<C-U>call Sline(v:count1)<CR> "Wrong
 
 " MAPPING Speech current selection. Truncate on ends if long
 vmap <expr> <silent> <leader>s VisualSelectionSpell({'max_number_of_words': 10}, 0)
 
+" SECTION Autospeak
 " SUBSECTION Movements
 " Approach: Call a expr key binding after changes of the visual selection
 vmap <expr> <C-L><C-V> VisualSelectionSpell({}, 0)
 vmap <expr> <C-L><C-1> VisualSelectionSwapSelectedEnd1()
 vmap <expr> <C-L><C-2> VisualSelectionSwapSelectedEnd2()
+vmap <expr> <C-L><C-3> VisualSelectionLineNumbers()
+vmap <expr> <C-L><C-4> VisualSelectionSpellChar()
 
-" MAPPING Movements
+" MAPPING wordwise movements
 vmap <silent> w w<C-L><C-V>
 vmap <silent> W W<C-L><C-V>
 vmap <silent> b b<C-L><C-V>
@@ -21,12 +29,18 @@ vmap <silent> E E<C-L><C-V>
 vmap <silent> ge ge<C-L><C-V>
 vmap <silent> gE gE<C-L><C-V>
 
+" MAPPING navigation movements
+vmap <silent> s h<C-L><C-4>
+vmap <silent> n j<C-L><C-3>
+vmap <silent> r k<C-L><C-3>
+vmap <silent> t l<C-L><C-4>
+
 " MAPPING Swap selected end of selection
 "vmap <silent> o <C-L><C-1>o<C-L><C-2>
-vnoremap <C-L><C-3> o
-vmap  <silent> o <C-L><C-1><C-L><C-3><C-L><C-2>
-"vnoremap <C-L><C-4> O
-"vmap  <silent> O <C-L><C-1><C-L><C-4><C-L><C-2>
+vnoremap <C-L><C-8> o
+vmap  <silent> o <C-L><C-1><C-L><C-8><C-L><C-2>
+"vnoremap <C-L><C-9> O
+"vmap  <silent> O <C-L><C-1><C-L><C-9><C-L><C-2>
 
 
 " MAPPING play sound for change visual mode

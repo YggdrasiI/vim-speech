@@ -48,13 +48,13 @@ function! VisualSelectionSpell(settings, save_settings)
 	return ''
 endfunction
 
-" Save cursor position before the position changes.
+" FUNCTION Save cursor position before the position changes.
 function! VisualSelectionSwapSelectedEnd1() 
 	let g:visual_selection_prev_cursor_position = getpos(".")
 	return ''
 endfunction
 
-" Compare cursor position with previous value
+" FUNCTION Compare cursor position with previous value
 function! VisualSelectionSwapSelectedEnd2() 
 	
 	let curpos = getpos(".")
@@ -76,3 +76,18 @@ function! VisualSelectionSwapSelectedEnd2()
 	return ''
 endfunction
 
+
+" FUNCTION Spell linenumber of cursor
+function! VisualSelectionLineNumbers() 
+	let curpos = getpos(".")
+	call Espeak( curpos[1] )
+endfunction
+vmap <expr> <C-L><C-4> Get_current_character()
+
+
+" FUNCTION Spell character under cursor
+function! VisualSelectionSpellChar() 
+	let l:msg = Get_current_character()
+	call Espeak( l:msg )
+	return ''
+endfunction

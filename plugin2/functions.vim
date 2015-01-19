@@ -3,46 +3,82 @@
 " or content of last visual selection (during other modes)
 function! Get_current_visual_selection()
 	if -1 ==# index(['v','V',"\<C-V>"], mode(0))
-		let posA = getpos("'<")[1:2]
-		let posB = getpos("'>")[1:2]
+		let l:posA = getpos("'<")[1:2]
+		let l:posB = getpos("'>")[1:2]
 	else
-		let posA = getpos("v")[1:2]
-		let posB = getpos(".")[1:2]
+		let l:posA = getpos("v")[1:2]
+		let l:posB = getpos(".")[1:2]
 		if posA[0] > posB[0] || ( posA[0] == posB[0] && posA[1] > posB[1] )
 			let	[posA, posB] = [l:posB, l:posA]
 		endif
 	endif
 
 	if 'v' == mode(0)
-		let lines = getline(posA[0], posB[0])
-		let lines[-1] = lines[-1][: posB[1] - (&selection == 'inclusive' ? 1 : 2)]
-		let lines[0] = lines[0][posA[1] - 1:]
-		let selection_text = join(lines, "\n")
-		let selection_range =  [posA, posB]
+		let l:lines = getline(l:posA[0], l:posB[0])
+		let l:lines[-1] = l:lines[-1][: l:posB[1] - (&selection == 'inclusive' ? 1 : 2)]
+		let l:lines[0] = l:lines[0][l:posA[1] - 1:]
+		let l:selection_text = join(l:lines, "\n")
+		let l:selection_range =  [l:posA, l:posB]
 	elseif 'V' == mode(0)
-		let lines = getline(posA[0], posB[0])
-		"let number_of_lines = posB[0]-posA[0]+1
-		"return ( number_of_lines . ( number_of_lines==1? ' Zeile. ' : ' Zeilen. ') )
-		let selection_text = join(lines, "\n")
-		let selection_range =  [[posA[0], 0], [posB, len(lines[-1])] ]
+		let l:lines = getline(l:posA[0], l:posB[0])
+		"let l:number_of_lines = l:posB[0]-l:posA[0]+1
+		"return ( l:number_of_lines . ( l:number_of_lines==1? ' Zeile. ' : ' Zeilen. ') )
+		let l:selection_text = join(l:lines, "\n")
+		let l:selection_range =  [[l:posA[0], 0], [l:posB, len(l:lines[-1])] ]
 	elseif "\<C-V>" == mode(0)
-		let lines = getline(posA[0], posB[0])
-		let [col_left, col_right] = [posA[1]-1, posB[1]-1]
-		if posA[1] > posB[1]
-			let [col_left, col_right] = [posB[1]-1, posA[1]-1]
+		let lines = getline(l:posA[0], l:posB[0])
+		let [l:col_left, l:col_right] = [l:posA[1]-1, l:posB[1]-1]
+		if l:posA[1] > l:posB[1]
+			let [l:col_left, l:col_right] = [l:posB[1]-1, l:posA[1]-1]
 		endif
-		let blocks = []
+		let l:blocks = []
 		for l in lines
 			" The following block selection does not respect the problems due the
 			" usage of tabulators. TODO: Respect width of tabs to determine
 			" blockwidth for each line. 
-			let blocks += [ l[ l:col_left : l:col_right ]	]
+			let l:blocks += [ l[ l:col_left : l:col_right ]	]
 		endfor
-		let selection_text = join(l:blocks, "\n")
-		let selection_range =  [[posA[0], col_left], [posB, col_right]]
+		let l:selection_text = join(l:blocks, "\n")
+		let l:selection_range =  [[l:posA[0], l:col_left], [l:posB, l:col_right]]
 	endif
-	return ([selection_text, selection_range])
+	return ([l:selection_text, l:selection_range])
 endfunction
+
+
+function! Get_current_character()
+	let l:pos = getpos(".")
+	let l:line = getline(l:pos[1])
+	" Note: The following simple approach fails for unicode characters with multiple bytes
+	"let l:char = l:line[l:pos[2]-1]
+
+  if has("multi_byte_encoding") == 0
+		return l:line[l:pos[2]-1]
+	endif
+
+	let l:char_pos1 = l:pos[2] - 1
+	let l:char1 = l:line[l:char_pos1]
+	" Types (see Utf-8 documentation):
+	" 00xxxxxx (0, ascii),
+	" 11xxxxxx (3 utf-8 head),
+	" 10xxxxxx (2, utf-8 tail)
+	let l:char_type = char2nr(l:char1)/64
+	while( l:char_type == 2 && l:pos1 > 0)
+		let l:char_pos1 = l:char_pos1 - 1
+		let l:char1 = l:line[l:char_pos1]
+		let l:char_type = char2nr(l:char1)/64
+	endwhile 
+
+	if l:char_type == 3
+		" Extract length information out of the utf-8 head character 
+		" and substract one.
+		let l:char_number_of_bytes = max([0, char2nr(l:char1)/16 % 4 - 1 ]) + 1 
+		return l:line[l:char_pos1 : l:char_pos1 + l:char_number_of_bytes]
+	else
+		return l:char1
+	endif
+
+endfunction
+
 
 " SECTION Filter functions to convert text. 
 " This could be usefull to spell words with different variations,
@@ -134,7 +170,7 @@ function! Vimspeak_filter_single_characters(text, spellSpace)
 	let l:characters = g:vs_characters
 
 	"if strchars(l:text) == 1 " Note that strlen does not work for multibyte characters
-	if Utf_single_character(l:text)
+	if Utf_is_single_character(l:text)
 		" Omit for loop and made direct lookup into the directory of special
 		" characters.
 		let l:char_names = get(l:characters, l:text[0], 0)
@@ -198,6 +234,9 @@ endfunction
 " Note: This variant is slower as Utf_strlen().
 function! Utf_strlen2(str)
 	let l:len = len(a:str)
+  if has("multi_byte_encoding") == 0
+		return l:len
+	endif
 	let l:subbytes = 0
 	let l:i = l:len - 1
 	while l:i
@@ -209,11 +248,16 @@ function! Utf_strlen2(str)
 	return l:len - l:subbytes
 endfunction
 
+" FUNCTION Return true if str ist one character. Respect multi byte
+" characters.
 " Respect RFC 3629, thus a character is at most four bytes wide.
-function! Utf_single_character(str)
+function! Utf_is_single_character(str)
 	let l:len = len(a:str)
 	if l:len < 2
 		return l:len " 0 or 1
+	endif
+  if has("multi_byte_encoding") == 0
+		return 0
 	endif
 	"let l:second_byte = char2nr(a:str[1]) 
 	"if l:second_byte > 127
@@ -287,7 +331,7 @@ function! Checkmode(mode)
 	let cur_buffer = bufnr("")
 
 	if g:vs_last_mode ==# l:cur_mode && g:vs_last_buffer == l:cur_buffer
-		return
+		return ''
 	endif
 
 	let l:mode_text = ''
@@ -328,6 +372,6 @@ function! Checkmode(mode)
 
 	let g:vs_last_mode = l:cur_mode
 	let g:vs_last_buffer = l:cur_buffer
-
+	return ''
 endfunction
 

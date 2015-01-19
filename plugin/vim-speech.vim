@@ -78,15 +78,20 @@ function! Sfilename()
 endfunction
 
 " FUNCTION Speech next n lines.
-function! Sline(count)
-	execute 'normal! "s' . max([1,a:count]) . 'yy'
-	let msg = Sfilter_linebreaks(@s)
+function! Sline(count1) 
+	"execute 'normal! "s' . max([1,a:count]) . 'yy'
+	let curpos = getpos(".")
+	"execute '' . l:curpos[1] . ',' . (l:curpos[1] + a:count1 - 1) . 'yank s'
+	"let msg = Sfilter_linebreaks(@s)
+	let l:msg = join(getline(l:curpos[1] , l:curpos[1] + a:count1 - 1),' ')
+	let l:msg = Sfilter_linebreaks(l:msg)
 	"let msg = Sfilter_splitWords(l:msg)
 
 	let msg = Vimspeak_filter_single_characters(l:msg, 0)
 
 	call Espeak (l:msg)
 	"echon ' ' . l:msg
+	return ''
 endfunction
 
 " FUNCTION Speech next n words.
@@ -161,7 +166,7 @@ function! Smovement(movement, count, filter)
 
 	let l:msg = Sfilter_linebreaks(l:msg)
 
-	if Utf_single_character(l:msg) == 1
+	if Utf_is_single_character(l:msg) == 1
 		let l:msg = Vimspeak_filter_single_characters(l:msg, 1)
 	else
 		" Just for testing. Should be optional
