@@ -1,10 +1,20 @@
-" Set global options of Espeak
-let g:espeak_language = 'de'
-"let g:espeak_language = 'en'
+" HEADLINE Global values
+
+" SECTION Set global options of Espeak
+" Used language
+let g:espeak_language = 'en'
+"let g:espeak_language = 'de'
+
+" Other option of espeak
 let g:espeak_options = '-k 30 -s 140 -a 100'
 
-let g:vimspeech_root_dir = '~/.vim/bundle/vim-speech/'
+" SECTION Vim-speech variables
+" This enable/disable vimspeech.
 "let g:vimspeech = 1
+
+" Root directory required to find sound snipets.
+let g:vimspeech_root_dir = '~/.vim/bundle/vim-speech/'
+
 " Flag to surpress all audio out
 let g:vimspeech_silent = 0
 
@@ -27,27 +37,51 @@ function! VimSpeech_Active()
 	return 0
 endfunction
 
+" SECTION Definition of speech engine calls.
+" Every text which should be spoken will call the function VimSpeech_Speak.
+" This function uses the global variable g:vimspeech_engine to select one
+" of the given engines.
+" Call TODO vimspeech_engines() to get a list of available engines.
 
-" FUNCTION Espeak
-" Push text to external speech engine
-" 
-function! Espeak(text) 
+" FUNCTION VimSpeech_list_engines
+function! VimSpeech_list_engines() 
+	let engines = 'Espeak, '
+	let text = printf( VimspeakLocaleToken('available_speech_engines'), l:engines )
+	call Espeak(l:text)
+endfunction
+
+" FUNCTION VimSpeech_Speak
+" Push text to currently selected speech engine over a system call.
+" The following functions of this section defines the available targets 
+" of this function. Currently, only Espeak is supported. 
+function! VimSpeech_Speak(text) 
 	if g:vimspeech_silent
 		return
 	endif
-	"call system("killall espeak ; espeak -k 20 \"" . a:text . "\" 1&> /dev/null &")
-	"call system("killall espeak ; espeak -v".g:espeak_language . " " . g:espeak_options . "  \"" . a:text . "\" 1&> /dev/null &")
-	"	call system("killall festival ; echo \"". a:text . "\" | festival --tts &")
-	"call system("killall flite ; flite -voice rms -t \"". a:text . "\" &")
-	"call system(" killall aplay ; killall testtts ; picospeech \"" . a:text . "\" &")
-	"call system(' killall aplay ; killall testtts ; picospeech -l '. g:espeak_language .' "'. a:text . '" &')
-	call system(' killall aplay ; killall testtts ; picospeech -l '. g:espeak_language .' "'. 
-				\ a:text . '" &')
+	if g:vimspeech_engine == 'Espeak'
+		call Espeak(a:text)
+	endif
+endfunction
+
+" FUNCTION Espeak
+" Kill running instances of espeak and create new one.
+" 
+function! Espeak(text) 
+	call system('killall espeak ; espeak -v'.g:espeak_language . ' ' . g:espeak_options . '  "' . a:text . '" 1&> /dev/null &')
 	"redraw!
 	echom a:text
 	"echom tr(a:text,"\n",' ')[0:30]
 endfunction
 
+" FUNCTION Picospeech
+" Like Espeak function but for picospeech enigne.
+" 
+function! Picospeech(text) 
+	call system(' killall aplay ; killall testtts ;')
+	call system('picospeech -l ' . g:espeak_language . ' "' . a:text . '" &')
+endfunction
+
+" SECTION Unnamed section
 " FUNCTION Speech information about a VIM range.
 function! Srange() range
 	if a:firstline == a:lastline

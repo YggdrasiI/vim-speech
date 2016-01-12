@@ -34,6 +34,12 @@ let s:vs_langs = {
 	\ 'selection_restore': {
 		\ 'en': 'Restore previous selection. ',
 		\ 'de': 'Vorherige Auswahl wiederhergestellt. '},
+	\ 'available_speech_engines': {
+		\ 'en': 'Available enignes: %s. Set g:vimspeech_engine too use one of them as default output. Some su    broutines my override this setting. ',
+		\ 'de': 'Verfügbare Sprachprogramme: %s. Setze die Variable g:vimspeech_enigne auf einen dieser Werte. Einige Unterfunktionen können diesen Wert allerdings ignorieren. '},
+	\ 'dummy entry': {
+		\ 'en': 'example entry for copy and paste. ',
+		\ 'de': 'Beispieleintrag zum Kopieren. '},
 	\ }
 
 "SUBSECTION Special characters
