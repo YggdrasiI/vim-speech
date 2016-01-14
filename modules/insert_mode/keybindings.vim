@@ -1,7 +1,7 @@
 
 " SECTION Spell last written word
-imap <expr> <Space>  InsertModeSpellWord("\<Space>")
-"imap <expr> . InsertModeSpellSentence(".")
+imap <expr> <Space> speech#insert_mode#SpellWord("\<Space>")
+" imap <expr> . speech#insert_mode#SpellWord(".")
 
 
 " SECTION Popup menu
@@ -16,10 +16,12 @@ set completeopt=menuone
 " Problem: inoremap does not work due <C-1> is a new mapping
 " Todo: Add other key combinations, see help of popupmenu-keys for a list of
 " available keys.
-imap <expr> <C-L><C-W> CompleteWordHandler()
-imap <expr> <C-L><C-5> StartPopupMenu()
-imap <expr> <C-N> PopupAction_Next() 
-imap <expr> <C-P> PopupAction_Prev()
-imap <expr> <C-E> pumvisible() ? PopupAction_Abort() : "\<C-E>"
-imap <expr> <C-Y> pumvisible() ? PopupAction_Confirm() : "\<C-Y>"
+
+" MAPPING
+imap <expr> <C-L><C-W> speech#insert_mode#CompleteWordHandler()
+imap <expr> <C-L><C-5> speech#insert_mode#StartPopupMenu()
+imap <expr> <C-N> speech#insert_mode#PopupActionNext() 
+imap <expr> <C-P> speech#insert_mode#PopupActionPrev()
+imap <expr> <C-E> pumvisible() ? speech#insert_mode#PopupActionAbort() : "\<C-E>"
+imap <expr> <C-Y> pumvisible() ? speech#insert_mode#PopupActionConfirm() : "\<C-Y>"
 

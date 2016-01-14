@@ -2,35 +2,47 @@ vim-speech
 
 This plugin connect VIM with an external text-to-speech engine. 
 
+
 INTRODUCTION
 Main target is the enhancement of basic commands to create
 an usable environment for blind users. 
 Thus, it focus on a subset of all VIM commands.
 
-As default text-to-speech engine it supports the open source eSpeak, see
+As default text-to-speech engine it supports the open source eSpeak, see url
 http://espeak.sourceforge.net/
-, but the engine could be replaced by other interfaces.
+The engine could be replaced by other interfaces.
 
 NOTE about the current state
 Currently, many functions was just implement as first proof-of-concept versions.
 Let's answer the question if this approach is useful, first!
 
 
-FEATURES
-The following functionalities of VIM was updated:
-- Cursor movements in normal mode.
-- Selection with the visual modes.
-- Commandline mode uses window instead of single line
-- Speech of popup menu entries in input mode.
-- Short sounds for several actions, like mode changes.
- 
-The following functionalities was added:
-- Speech of current state of VIM
-- Speech of several contextes (in example current character, word, line or paragraph).
+DEPENDENCIES
+Required command line tools: Aplay, Espeak.
+Both tools are common and should be found in most Linux package distribution.
+To install them on a debian based system use following command:
+sudo apt-get install alsa-utils espeak
+
+Required VIM-plugins: Pathogen.
+The follwing line contain a link a textfile with install instructions for Pathogen:
+https://raw.githubusercontent.com/tpope/vim-pathogen/master/README.markdown
 
 
 INSTALLATION
-Use Patogen and copy this folder into the .vim/bundle/ directory.
+Copy this folder into the directory ~/.vim/bundle/ . Pathogen should manage the plugin loading, now.
+
+
+FEATURES
+The following functionalities of VIM are changed by the plugin:
+- Cursor movements in normal mode.
+- Selection with the visual modes.
+- Commandline mode uses own window instead of single line.
+- Speech of popup menu entries in input mode.
+- Short sounds for several actions, like mode changes.
+ 
+The following functionalities are added:
+- Speech of current state of VIM
+- Speech of several contextes (in example current character, word, line or paragraph).
 
 
 DOCUMENTATION

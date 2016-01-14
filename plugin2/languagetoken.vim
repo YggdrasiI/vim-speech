@@ -2,11 +2,17 @@
 " This file contains a two dimensional dictionary with
 " language locales.
 " Some strings will be used as format strings for the vim version of the printf command.
-" Use the global variable espeak_language to select the used language.
+" Use the function speech#language#GetToken('key') to fetch the string in the
+" globally selected languge.
+" The globally selected language is set by the variable g:speech#language.
+
+
+" SECTION Related files
+" autoload/speech/locale.vim
 
 
 " SECTION Variables
-let s:vs_langs = {
+let g:vs_langs = {
 	\ 'filename': {
 		\ 'en': 'Filename: %s ',
 		\ 'de': 'Dateiname: %s '},
@@ -35,8 +41,8 @@ let s:vs_langs = {
 		\ 'en': 'Restore previous selection. ',
 		\ 'de': 'Vorherige Auswahl wiederhergestellt. '},
 	\ 'available_speech_engines': {
-		\ 'en': 'Available enignes: %s. Set g:vimspeech_engine too use one of them as default output. Some su    broutines my override this setting. ',
-		\ 'de': 'Verfügbare Sprachprogramme: %s. Setze die Variable g:vimspeech_enigne auf einen dieser Werte. Einige Unterfunktionen können diesen Wert allerdings ignorieren. '},
+		\ 'en': 'Available enignes: %s. Set g:speech#engine too use one of them as default output. Some su    broutines my override this setting. ',
+		\ 'de': 'Verfügbare Sprachprogramme: %s. Setze die Variable g:speech#engine auf einen dieser Werte. Einige Unterfunktionen können diesen Wert allerdings ignorieren. '},
 	\ 'dummy entry': {
 		\ 'en': 'example entry for copy and paste. ',
 		\ 'de': 'Beispieleintrag zum Kopieren. '},
@@ -90,7 +96,7 @@ let g:vs_characters = {
 		\ 'de': 'Backslash', },
 	\ '"': {
 		\ 'regex': '["]',
-		\ 'en': 'double qoute',
+		\ 'en': 'double quote',
 		\ 'de': 'Doppeltes Anführungszeichen', },
 	\ "'": {
 		\ 'regex': "'",
@@ -161,10 +167,3 @@ let g:vs_characters = {
 		\ 'en': ' ',
 		\ 'de': ' '},
 		\ }
-
-" SECTION Functions
-" Return token for selected language
-function! VimspeakLocaleToken(token)
-	return get( get( s:vs_langs, a:token, {}), g:espeak_language,
-			\ 'Undefined token '.a:token.' ')
-endfunction

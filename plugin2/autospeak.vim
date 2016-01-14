@@ -1,11 +1,12 @@
 " HEADLINE Collection of scripts for speech feedback on several vim actions
 
 " SECTION Key movements in normal mode and visual mode
-" This script trys to analyse the cursor movement
+" This script tries to analyse the cursor movement
 " and spells out the current char, word or WORD
 " For words with length 1 (i.e. special characters)
-" the character will be translate into the character name
+" the character will be translate into the character name.
 
+" TODO Option currently not respected.
 " Options:
 " Each option name begins with AS_.
 " AS_vertical defines the output for vertical line changes
@@ -31,31 +32,33 @@ redir => g:messbuf
 "nnoremap <silent> : :execute 'redir END | echon g:messbuf | redir => g:messbuf":
 
 
+"autocmd CursorMoved,BufLeave * call speech#general#Checkmode("")
+autocmd InsertLeave * call speech#general#Checkmode('n')
+autocmd InsertEnter * call speech#general#Checkmode('i')
+"autocmd CmdwinLeave * call speech#general#Checkmode('')
+autocmd CursorMoved,BufEnter,BufLeave * call speech#general#Checkmode('')
+autocmd BufwinEnter * call speech#general#Checkmode('')
+
+
+
 " FUNCTION Just for Testing
 function! HoldEvent()
-	call Checkmode('')
+	call speech#general#Checkmode('')
 	echo 'hold event'
 endfunction
-
-
-"autocmd CursorMoved,BufLeave * call Checkmode("")
-autocmd InsertLeave * call Checkmode('n')
-autocmd InsertEnter * call Checkmode('i')
-"autocmd CmdwinLeave * call Checkmode('')
-autocmd CursorMoved,BufEnter,BufLeave * call Checkmode('')
-autocmd BufwinEnter * call Checkmode('')
 
 " Note: This is only useful if updatetimes is very short
 "autocmd CursorHold * call HoldEvent()
 
 
+
 " SUBSECTION Old approaches
 "autocmd BufNewFile * call Espeak('New file ' . expand("%:t") )
 "autocmd BufNewFile * call Sfilename()
-"autocmd CmdwinEnter * call Sget_mode('c')
-"autocmd InsertEnter * call Sget_mode('i')
-"autocmd CmdwinLeave * call Sget_mode('n')
-"autocmd InsertLeave * call Sget_mode(mode(0))
+"autocmd CmdwinEnter * call speech#GetMode('c')
+"autocmd InsertEnter * call speech#GetMode('i')
+"autocmd CmdwinLeave * call speech#GetMode('n')
+"autocmd InsertLeave * call speech#GetMode(mode(0))
 "autocmd CursorMoved * call Autospeak()
 
 

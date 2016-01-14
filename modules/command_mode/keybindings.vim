@@ -1,7 +1,8 @@
-
+" SECTION Keybindings
+"
 " MAPPING Speech mode
-cmap <leader>m <C-\>eScmd_test('Command Mode')<CR>
+cmap <leader>m <C-\>espeech#CmdTest('Command Mode')<CR>
 
 
 " MAPPING Speech content of command line
-cmap <leader>s <C-\>eScmd_test(getcmdline())<CR>
+cmap <leader>s <C-\>espeech#CmdTest(getcmdline())<CR>

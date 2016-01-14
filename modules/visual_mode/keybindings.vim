@@ -3,21 +3,21 @@
 vmap l <Nop>
 
 " MAPPING Speech Mode
-vmap <expr> <silent> <leader>m Sget_mode(mode())
-vmap <expr> <silent> <leader>l Sline(v:count1)
-"vmap <silent> <leader>l :<C-U>call Sline(v:count1)<CR> "Wrong
+vmap <expr> <silent> <leader>m speech#GetMode(mode())
+vmap <expr> <silent> <leader>l speech#Line(v:count1)
+"vmap <silent> <leader>l :<C-U>call speech#Line(v:count1)<CR> "Wrong
 
 " MAPPING Speech current selection. Truncate on ends if long
-vmap <expr> <silent> <leader>s VisualSelectionSpell({'max_number_of_words': 10}, 0)
+vmap <expr> <silent> <leader>s speech#visual_mode#VisualSelectionSpell({'max_number_of_words': 10}, 0)
 
 " SECTION Autospeak
 " SUBSECTION Movements
 " Approach: Call a expr key binding after changes of the visual selection
-vmap <expr> <C-L><C-V> VisualSelectionSpell({}, 0)
-vmap <expr> <C-L><C-1> VisualSelectionSwapSelectedEnd1()
-vmap <expr> <C-L><C-2> VisualSelectionSwapSelectedEnd2()
-vmap <expr> <C-L><C-3> VisualSelectionLineNumbers()
-vmap <expr> <C-L><C-4> VisualSelectionSpellChar()
+vmap <expr> <C-L><C-V> speech#visual_mode#VisualSelectionSpell({}, 0)
+vmap <expr> <C-L><C-1> speech#visual_mode#VisualSelectionSwapSelectedEnd1()
+vmap <expr> <C-L><C-2> speech#visual_mode#VisualSelectionSwapSelectedEnd2()
+vmap <expr> <C-L><C-3> speech#visual_mode#VisualSelectionLineNumbers()
+vmap <expr> <C-L><C-4> speech#visual_mode#VisualSelectionSpellChar()
 
 " MAPPING wordwise movements
 vmap <silent> w w<C-L><C-V>
@@ -44,7 +44,7 @@ vmap  <silent> o <C-L><C-1><C-L><C-8><C-L><C-2>
 
 
 " MAPPING play sound for change visual mode
-vmap <expr> <silent> <C-L><C-L> Checkmode('')
+vmap <expr> <silent> <C-L><C-L> speech#general#Checkmode('')
 vmap <silent> v v<C-L><C-L>
 vmap <silent> V V<C-L><C-L>
 vmap <silent> <C-V> <C-V><C-L><C-L>

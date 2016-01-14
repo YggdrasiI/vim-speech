@@ -13,10 +13,10 @@ endfunction
 "Initialisation of hidden buffer 
 function! Sinit()
 	" Disallow speaking during initialisation
-	let g:vimspeak_silent = 1
-	let g:vimspeak_bufnum = bufnr(g:VimspeakBufferName, 1)
+	let g:speech#silent = 1
+	let g:speech#bufnum = bufnr(g:VimspeakBufferName, 1)
 
-	let g:vimspeak_silent = 0
+	let g:speech#silent = 0
 endfunction
 
 function! CloseHiddenBuffer()

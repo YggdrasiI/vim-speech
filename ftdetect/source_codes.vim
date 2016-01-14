@@ -1,7 +1,7 @@
 " HEADLINE Special speech functions for source code files.
 
 function! AddVimHandlers()
-	if exists("g:vimspeech_enabled") == 0
+	if exists('g:speech#enabled') == 0
 		return ''
 	endif
 	"This overwrites the autospeak functionality for this keys
@@ -14,7 +14,7 @@ function! CommentDetection()
 	"let line = tr(getline("."), " \t", '')
 	let line = getline(".")
 	if len(l:line)>0 && l:line[0] == '"'
-		call Ssound('bell_mid.wav')
+		call speech#sound#Play('bell_mid.wav')
 	endif
 	return '' 
 endfunction
