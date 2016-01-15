@@ -8,6 +8,6 @@
 " Return token for selected language.
 "
 function! speech#locale#GetToken(token)
-	return get( get( g:vs_langs, a:token, {}), g:speech#language,
-			\ 'Undefined token '.a:token.' ')
+  return get( get( g:vs_langs, a:token, {}), g:speech#language,
+        \ 'Undefined token '.a:token.' ')
 endfunction

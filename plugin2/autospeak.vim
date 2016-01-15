@@ -43,8 +43,8 @@ autocmd BufwinEnter * call speech#general#Checkmode('')
 
 " FUNCTION Just for Testing
 function! HoldEvent()
-	call speech#general#Checkmode('')
-	echo 'hold event'
+  call speech#general#Checkmode('')
+  echo 'hold event'
 endfunction
 
 " Note: This is only useful if updatetimes is very short

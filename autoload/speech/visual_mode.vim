@@ -2,10 +2,10 @@
 " FUNCTION SpeakVisualSelection
 " 
 function! speech#visual_mode#SpeakVisualSelection()
-		"let msg = @*
-		let msg = speech#general#GetCurrentVisualSelection()[0]
-		call speech#Speak( tr(l:msg, "\n\r", '  ') )
-		return ''
+  "let msg = @*
+  let msg = speech#general#GetCurrentVisualSelection()[0]
+  call speech#Speak( tr(l:msg, "\n\r", '  ') )
+  return ''
 endfunction
 
 
@@ -18,38 +18,38 @@ endfunction
 "
 function! speech#visual_mode#VisualSelectionSpell(settings, save_settings) 
 
-	" Merge manual given settings with default values
-	let l:settings = copy(g:vs_visual_selection_settings_last)
-	call extend(l:settings, a:settings)
-	" Optional, save new settings
-	if a:save_settings == 1
-		let g:vs_visual_selection_settings_last = l:settings
-	endif
+  " Merge manual given settings with default values
+  let l:settings = copy(g:vs_visual_selection_settings_last)
+  call extend(l:settings, a:settings)
+  " Optional, save new settings
+  if a:save_settings == 1
+    let g:vs_visual_selection_settings_last = l:settings
+  endif
 
-	" The @* register just exists in X11 environments
-	"let selected_text = @*
-	let selected_text = speech#general#GetCurrentVisualSelection()[0]
-	" Todo: Select substring if text is to long. Otherwise, everything runs very
-	" slow.
-	let selected_text = substitute(selected_text, '\n', ' ', 'g')
+  " The @* register just exists in X11 environments
+  "let selected_text = @*
+  let selected_text = speech#general#GetCurrentVisualSelection()[0]
+  " Todo: Select substring if text is to long. Otherwise, everything runs very
+  " slow.
+  let selected_text = substitute(selected_text, '\n', ' ', 'g')
 
-	if len(l:selected_text) > 0 
-		"let words = split(l:selected_text,'\W\+')
-		let words = split(l:selected_text,'\s\+')
-		let lenwords = len(l:words)
-		if l:lenwords < get(l:settings, 'max_number_of_words', 5)
-			" Spell whole selection
-			call speech#Speak( l:selected_text )
-		else
-			" Reduce spelling on head and tail of selection
-			let l:subwords = l:words[ 0:get(l:settings, 'substring_words_start', 2) - 1 ]
-						\+[' , ']
-						\+l:words[ l:lenwords-get(l:settings, 'substring_words_end', 2): ]
-			call speech#Speak( join(l:subwords) )
-		endif
-	endif
+  if len(l:selected_text) > 0 
+    "let words = split(l:selected_text,'\W\+')
+    let words = split(l:selected_text,'\s\+')
+    let lenwords = len(l:words)
+    if l:lenwords < get(l:settings, 'max_number_of_words', 5)
+      " Spell whole selection
+      call speech#Speak( l:selected_text )
+    else
+      " Reduce spelling on head and tail of selection
+      let l:subwords = l:words[ 0:get(l:settings, 'substring_words_start', 2) - 1 ]
+            \+[' , ']
+            \+l:words[ l:lenwords-get(l:settings, 'substring_words_end', 2): ]
+      call speech#Speak( join(l:subwords) )
+    endif
+  endif
 
-	return ''
+  return ''
 endfunction
 
 
@@ -57,8 +57,8 @@ endfunction
 " Save cursor position before the position changes.
 "
 function! speech#visual_mode#VisualSelectionSwapSelectedEnd1() 
-	let g:visual_selection_prev_cursor_position = getpos(".")
-	return ''
+  let g:visual_selection_prev_cursor_position = getpos(".")
+  return ''
 endfunction
 
 
@@ -66,24 +66,24 @@ endfunction
 " Compare cursor position with previous value.
 "
 function! speech#visual_mode#VisualSelectionSwapSelectedEnd2() 
-	
-	let curpos = getpos(".")
-	let lastpos = g:visual_selection_prev_cursor_position
-	" Note: The following positions are the wrong and from the previous selection
-	"let selection_start = getpos("'<")
-	"let selection_end = getpos("'>")
 
-	if l:lastpos == l:curpos 
-		"call speech#Speak( 'Visual block contains just one character. ' )
-		call speech#Speak( speech#locale#GetToken('selection_single_character')  )
-	elseif l:curpos[1] < l:lastpos[1] || ( l:curpos[1] == l:lastpos[1] && l:curpos[2] < l:lastpos[2] )
-		"call speech#Speak( 'Start of visual block selected. ' )
-		call speech#Speak( speech#locale#GetToken('selection_cursor_at_start') )
-	elseif l:curpos[1] > l:lastpos[1] || ( l:curpos[1] == l:lastpos[1] && l:curpos[2] > l:lastpos[2] )
-		call speech#Speak( speech#locale#GetToken('selection_cursor_at_end') )
-	endif
+  let curpos = getpos(".")
+  let lastpos = g:visual_selection_prev_cursor_position
+  " Note: The following positions are the wrong and from the previous selection
+  "let selection_start = getpos("'<")
+  "let selection_end = getpos("'>")
 
-	return ''
+  if l:lastpos == l:curpos 
+    "call speech#Speak( 'Visual block contains just one character. ' )
+    call speech#Speak( speech#locale#GetToken('selection_single_character')  )
+  elseif l:curpos[1] < l:lastpos[1] || ( l:curpos[1] == l:lastpos[1] && l:curpos[2] < l:lastpos[2] )
+    "call speech#Speak( 'Start of visual block selected. ' )
+    call speech#Speak( speech#locale#GetToken('selection_cursor_at_start') )
+  elseif l:curpos[1] > l:lastpos[1] || ( l:curpos[1] == l:lastpos[1] && l:curpos[2] > l:lastpos[2] )
+    call speech#Speak( speech#locale#GetToken('selection_cursor_at_end') )
+  endif
+
+  return ''
 endfunction
 
 
@@ -91,8 +91,8 @@ endfunction
 " Spell linenumber of cursor.
 "
 function! speech#visual_mode#VisualSelectionLineNumbers() 
-	let curpos = getpos(".")
-	call speech#Speak( curpos[1] )
+  let curpos = getpos(".")
+  call speech#Speak( curpos[1] )
 endfunction
 vmap <expr> <C-L><C-4> Get_current_character()
 
@@ -101,7 +101,7 @@ vmap <expr> <C-L><C-4> Get_current_character()
 " Spell character under cursor.
 "
 function! speech#visual_mode#VisualSelectionSpellChar() 
-	let l:msg = Get_current_character()
-	call speech#Speak( l:msg )
-	return ''
+  let l:msg = Get_current_character()
+  call speech#Speak( l:msg )
+  return ''
 endfunction
