@@ -32,18 +32,18 @@ redir => g:messbuf
 "nnoremap <silent> : :execute 'redir END | echon g:messbuf | redir => g:messbuf":
 
 
-"autocmd CursorMoved,BufLeave * call speech#general#Checkmode("")
-autocmd InsertLeave * call speech#general#Checkmode('n')
-autocmd InsertEnter * call speech#general#Checkmode('i')
-"autocmd CmdwinLeave * call speech#general#Checkmode('')
-autocmd CursorMoved,BufEnter,BufLeave * call speech#general#Checkmode('')
-autocmd BufwinEnter * call speech#general#Checkmode('')
+"autocmd CursorMoved,BufLeave * call speech#general#CheckMode("")
+autocmd InsertLeave * call speech#general#CheckMode('n')
+autocmd InsertEnter * call speech#general#CheckMode('i')
+"autocmd CmdwinLeave * call speech#general#CheckMode('')
+autocmd CursorMoved,BufEnter,BufLeave * call speech#general#CheckMode('')
+autocmd BufwinEnter * call speech#general#CheckMode('')
 
 
 
 " FUNCTION Just for Testing
 function! HoldEvent()
-  call speech#general#Checkmode('')
+  call speech#general#CheckMode('')
   echo 'hold event'
 endfunction
 

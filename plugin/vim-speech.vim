@@ -7,7 +7,7 @@ let g:speech = get(g:, 'speech', 1)
 "" Default speech language
 let g:speech#language = get(g:, 'speech#language', 'en')
 
-"" Keyword for used speech synthesis engine
+"" Keyword for used speech synthesis engine.
 let g:speech#engine = get(g:, 'speech#engine', 'espeak')
 
 "" Main key for speech commands of this plugin.
@@ -27,7 +27,7 @@ let g:speech#silent = 0
 
 
 " SECTION Options for Espeak
-"" Further options of espeak
+"" Options of espeak, but without language selection.
 let g:speech#espeak_options = get(g:, 'speech#espeak_options',
       \ '-k 30 -s 140 -a 100')
 

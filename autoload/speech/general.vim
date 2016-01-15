@@ -119,7 +119,7 @@ function! speech#general#PingMode(mode)
 endfunction
 
 
-" FUNCTION Checkmode
+" FUNCTION CheckMode
 " Check if current mode differs from previous and
 " give accoustic feedback for changes.
 " If the input argument is empty it will automatically detect the current
@@ -127,7 +127,7 @@ endfunction
 "
 let g:vs_last_mode = ''
 let g:vs_last_buffer = -1
-function! speech#general#Checkmode(mode)
+function! speech#general#CheckMode(mode)
   if a:mode ==# ''
     let l:cur_mode = mode()
   elseif a:mode ==# 'x'

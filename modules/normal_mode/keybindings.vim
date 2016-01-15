@@ -73,13 +73,13 @@ nmap <expr> <silent> <leader>s speech#visual_mode#VisualSelectionSpell({}, 0)
 nmap <expr> <silent> gv speech#normal_mode#RestorePreviousSelection()
 
 " MAPPING play sound for entering visual modes
-nmap <expr> <silent> <C-L><C-L> speech#general#Checkmode('')
+nmap <expr> <silent> <C-L><C-L> speech#general#CheckMode('')
 nmap <silent> v v<C-L><C-L>
 nmap <silent> V V<C-L><C-L>
 nmap <silent> <C-V> <C-V><C-L><C-L>
 
 " Workaround, no does not work, too:
-"nnoremap <silent> v :<C-U>call speech#general#Checkmode('v')<CR>v
+"nnoremap <silent> v :<C-U>call speech#general#CheckMode('v')<CR>v
 "nnoremap <silent> v :<C-U>call speech#general#PingMode('v')<CR>v
 
 "Replace cmdline with cmdline in insert mode to improve navigation
