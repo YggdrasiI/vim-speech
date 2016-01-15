@@ -31,7 +31,7 @@ function! speech#visual_mode#VisualSelectionSpell(settings, save_settings)
   let selected_text = speech#general#GetCurrentVisualSelection()[0]
   " Todo: Select substring if text is to long. Otherwise, everything runs very
   " slow.
-  let selected_text = substitute(selected_text, '\n', ' ', 'g')
+  let selected_text = substitute(l:selected_text, '\n', ' ', 'g')
 
   if len(l:selected_text) > 0 
     "let words = split(l:selected_text,'\W\+')
@@ -39,7 +39,7 @@ function! speech#visual_mode#VisualSelectionSpell(settings, save_settings)
     let lenwords = len(l:words)
     if l:lenwords < get(l:settings, 'max_number_of_words', 5)
       " Spell whole selection
-      call speech#Speak( l:selected_text )
+      call speech#Speak(l:selected_text)
     else
       " Reduce spelling on head and tail of selection
       let l:subwords = l:words[ 0:get(l:settings, 'substring_words_start', 2) - 1 ]
@@ -94,14 +94,14 @@ function! speech#visual_mode#VisualSelectionLineNumbers()
   let curpos = getpos(".")
   call speech#Speak( curpos[1] )
 endfunction
-vmap <expr> <C-L><C-4> Get_current_character()
+vmap <expr> <C-L><C-4> speech#general#GetCurrentCharacter()
 
 
 " FUNCTION VisualSelectionSpellChar
 " Spell character under cursor.
 "
 function! speech#visual_mode#VisualSelectionSpellChar() 
-  let l:msg = Get_current_character()
+  let l:msg = speech#general#GetCurrentCharacter()
   call speech#Speak( l:msg )
   return ''
 endfunction

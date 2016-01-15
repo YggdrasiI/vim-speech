@@ -16,6 +16,7 @@ function! speech#general#GetCurrentVisualSelection()
     endif
   endif
 
+  let l:selection_text = ''
   if 'v' == mode(0)
     let l:lines = getline(l:posA[0], l:posB[0])
     let l:lines[-1] = l:lines[-1][: l:posB[1] - (&selection == 'inclusive' ? 1 : 2)]

@@ -23,10 +23,11 @@ function! speech#Speak(text)
   if g:speech#silent
     return
   endif
+  let l:text = escape(a:text, '"')
   if g:speech#engine ==? 'espeak'
-    call speech#Espeak(a:text)
+    call speech#Espeak(l:text)
   elseif g:speech#engine ==? 'pico'
-    call speech#Picospeech(a:text)
+    call speech#Picospeech(l:text)
   endif
 endfunction
 
@@ -52,7 +53,7 @@ function! speech#Picospeech(text)
         \ '$HOME/scripts/picospeech -l "' . g:speech#language . '" "' . a:text . '" &')
 
   " Debugging
-  "echom '(Pico) ' . a:text
+  echom '(Pico) ' . a:text
 endfunction
 
 
