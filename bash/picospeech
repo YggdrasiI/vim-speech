@@ -1,0 +1,9 @@
+#!/bin/bash
+# Wrapper for Pico TTS (Android text-to-speech engine).
+# It switch the working directory to find the language dictionaries.
+# Set of LD_LIBRARY_PATH required for combination of vimperator+gVim.
+
+pushd /opt/raspberry_pi/speech/picopi/pico/tts
+ls
+LD_LIBRARY_PATH=. /opt/raspberry_pi/speech/picopi/pico/tts/testtts "$@" | aplay --rate=16000 --channels=1 --format=S16_LE
+popd
