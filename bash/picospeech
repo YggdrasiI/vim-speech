@@ -1,9 +1,25 @@
 #!/bin/bash
 # Wrapper for Pico TTS (Android text-to-speech engine).
 # It switch the working directory to find the language dictionaries.
-# Set of LD_LIBRARY_PATH required for combination of vimperator+gVim.
+# Set of LD_LIBRARY_PATH required for the combination of vimperator+gVim.
+
+# Pico TTS (testtts) does not support reading of stdin. Store input in variable,
+# but only read stdin in non-tty mode. Otherwise the script would blockade.
+[[ -t 0 ]] && \
+  INPUT_MODE="tty"
+[[ -p /dev/stdin ]] && \
+  INPUT_MODE="pipe" 
+[[ ! -t 0 && ! -p /dev/stdin ]] && \
+  INPUT_MODE="vim" 
+
+if [ "$INPUT_MODE" = "tty" ] 
+then
+    OUTARGS="$@"
+else
+  STDIN=$(</dev/stdin)
+  OUTARGS="$@ $STDIN"
+fi
 
 pushd /opt/raspberry_pi/speech/picopi/pico/tts
-ls
-LD_LIBRARY_PATH=. /opt/raspberry_pi/speech/picopi/pico/tts/testtts "$@" | aplay --rate=16000 --channels=1 --format=S16_LE
+LD_LIBRARY_PATH=. /opt/raspberry_pi/speech/picopi/pico/tts/testtts $OUTARGS | aplay --rate=16000 --channels=1 --format=S16_LE
 popd

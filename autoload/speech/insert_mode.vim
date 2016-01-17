@@ -54,9 +54,6 @@ function! speech#insert_mode#CompleteWordHandler()
   " Add space to omit error for string '\'.
   let line = l:line . ' '
 
-  " Escape " to omit error for string '"'.
-  let line = escape(l:line, '"')
-
   if len(l:line) > 0 
     call speech#Speak( l:line )
   endif

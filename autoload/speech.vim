@@ -23,11 +23,10 @@ function! speech#Speak(text)
   if g:speech#silent
     return
   endif
-  let l:text = escape(a:text, '"')
   if g:speech#engine ==? 'espeak'
-    call speech#Espeak(l:text)
+    call speech#Espeak(a:text)
   elseif g:speech#engine ==? 'pico'
-    call speech#Picospeech(l:text)
+    call speech#Picospeech(a:text)
   endif
 endfunction
 
@@ -36,8 +35,16 @@ endfunction
 " Kill running instances of espeak and create new one.
 "
 function! speech#Espeak(text) 
-  call system('killall espeak ; espeak -v'.g:speech#language . ' ' . g:speech#espeak_options . '  "' . a:text . '" 1&> /dev/null &')
-
+  " First approach Use text as argument. Quote characters made trouble.
+  let l:text = escape(a:text, '"\')
+  call system('killall espeak ; espeak -v'.g:speech#language . ' ' . g:speech#espeak_options . '  "' . l:text . '" 1&> /dev/null &')
+  
+  " Second approach. Send text over stdin
+  "call system('killall espeak')
+  "call system('espeak -v'.g:speech#language . ' '
+  "      \ . g:speech#espeak_options .'1&> /dev/null &',
+  "      \ a:text . '" ')
+  
   " Debugging
   "redraw!
   "echom '(Espeak) ' . a:text
@@ -47,13 +54,22 @@ endfunction
 
 "" FUNCTION Picospeech
 " Like Espeak function but for picospeech enigne.
+" Note that picospeech ignore double quotes characters during speech. This
+" made it difficult to detect comment lines in vim script files...
 "
 function! speech#Picospeech(text) 
-  call system(' killall aplay ; killall testtts ;' .
-        \ '$HOME/scripts/picospeech -l "' . g:speech#language . '" "' . a:text . '" &')
+  " This variant uses an argument for the text. It requires escaping of
+  " double quote.
+  let l:text = escape(a:text, '"')
+  call system(" killall aplay ; killall testtts ;" .
+        \ g:speech#root_dir . "bash/picospeech -l " . g:speech#language . " \"" . l:text . "\" &")
+
+  " This variant uses stdin for the text. Character escaping not required.
+  "call system('killall aplay ; killall testtts ;')
+  "call system(g:speech#root_dir . "bash/picospeech -l '" . g:speech#language . "' &", a:text)
 
   " Debugging
-  echom '(Pico) ' . a:text
+  "echom '(Pico) ' . a:text
 endfunction
 
 
