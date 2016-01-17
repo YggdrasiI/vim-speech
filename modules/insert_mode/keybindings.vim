@@ -2,7 +2,8 @@
 " SECTION Spell last written word
 imap <expr> <Space> speech#insert_mode#SpellWord("\<Space>")
 " imap <expr> . speech#insert_mode#SpellWord(".")
-
+" imap <expr> <CR> speech#insert_mode#SpellSentence("\<CR>")
+imap <expr> <CR> speech#insert_mode#SpellWord("\<CR>")
 
 " SECTION Popup menu
 " Open menu if just one word match. Otherwise, the menu will neither open nor
@@ -25,3 +26,6 @@ imap <expr> <C-P> speech#insert_mode#PopupActionPrev()
 imap <expr> <C-E> pumvisible() ? speech#insert_mode#PopupActionAbort() : "\<C-E>"
 imap <expr> <C-Y> pumvisible() ? speech#insert_mode#PopupActionConfirm() : "\<C-Y>"
 
+
+" SECTION Return current Mode
+imap <expr> <silent> <leader>m speech#GetMode(mode())

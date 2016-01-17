@@ -5,10 +5,25 @@
 let g:speech = get(g:, 'speech', 1)
 
 "" Default speech language
+" Language is defined by the common country code (two characters; ISO 639).
 let g:speech#language = get(g:, 'speech#language', 'en')
 
 "" Keyword for used speech synthesis engine.
 let g:speech#engine = get(g:, 'speech#engine', 'espeak')
+
+""  Keyboard layout. 
+" Some sparsely used layouts (dvorak, neo) doesn't fit
+" well to some key combinations. Use this value to
+" enable a few changes of the plugin beheaviour.
+" Use "undefined" do disable changes.
+" Use "auto" to enable automatic detection. (Only works on Linux.)
+"
+" Note: Currently, value is not used. For Dvorak no changes will made.
+let g:speech#keyboard_layout = get(g:, 'speech#keyboard_layout', 'undefined')
+
+if g:speech#keyboard_layout ==? "auto"
+ let g:speech#keyboard_layout = speech#keyboard#GetLayout()
+endif
 
 "" Main key for speech commands of this plugin.
 " A good choice depends on your keyboard layout.
@@ -16,7 +31,7 @@ let g:speech#engine = get(g:, 'speech#engine', 'espeak')
 " Recommendation for QWERTZ layout: 's'
 " Recommendation for Neo2.0 layout: 'l'
 " Recommendation for Dworak layout: '?'
-let g:speech#leader_key = get(g:, 'speech#leader_key', 'l')
+let g:speech#leader_key = get(g:, 'speech#leader_key', 's')
 
 "" Root directory of plugin. Required to find sound snippets.
 let g:speech#root_dir = get(g:, 'speech#root_dir',
@@ -45,7 +60,7 @@ if exists("*VimSpeech_Load") == 0
   endfunction
 endif
 
-function! VimSpeech_Active()
+function! s:VimSpeech_Active()
   if exists("g:speech") && g:speech == 1
     return 1
   endif
@@ -54,7 +69,7 @@ endfunction
 
 
 " Surpress automatic loading if speech variable is missing or not 1.
-if VimSpeech_Active() == 0
+if s:VimSpeech_Active() == 0
   let g:speech = 0
   :finish
 else

@@ -12,3 +12,8 @@ endfunction
 
 
 
+" FUNCTION Error
+" Play error sound.
+function! speech#sound#Error()
+  call speech#sound#Play('error1.wav')
+endfunction

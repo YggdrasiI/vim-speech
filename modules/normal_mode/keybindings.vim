@@ -11,61 +11,120 @@ nnoremap <silent> E E:<C-U>call speech#PreserveCursor('call speech#Movement("yiW
 nnoremap <silent> ge ge:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
 nnoremap <silent> gE gE:<C-U>call speech#PreserveCursor('call speech#Movement("yiW",0,"")')<CR>
 
+" MAPPING Charwise movements (VIM arrow style).
+if g:speech#keyboard_layout ==? "neo"
+  nnoremap <silent> s h:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
+  nnoremap <silent> t l:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
+  nnoremap <silent> n j:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+  nnoremap <silent> r k:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+else
+  nnoremap <silent> h h:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
+  nnoremap <silent> l l:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
+  nnoremap <silent> j j:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+  nnoremap <silent> k k:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+endif
+
+
 " MAPPING object motions 
 "nnoremap <silent> ( (:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
 "nnoremap <silent> ) ):<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
-nnoremap <silent> ( (:<C-U>call speech#Speak("Previous sentence.")<CR>
-nnoremap <silent> ) ):<C-U>call speech#Speak("Next sentence.")<CR>
-nnoremap <silent> { {:<C-U>call speech#Speak("Previous paragraph.")<CR>
-nnoremap <silent> } }:<C-U>call speech#Speak("Next paragraph.")<CR>
+execute 'nnoremap <silent> ( (:<C-U>call speech#Speak("'
+      \ . speech#locale#GetToken('previous_sentence') . '")<CR>'
+execute 'nnoremap <silent> ) ):<C-U>call speech#Speak("'
+      \ . speech#locale#GetToken('next_sentence') . '")<CR>'
+execute 'nnoremap <silent> { {:<C-U>call speech#Speak("'
+      \ . speech#locale#GetToken('previous_paragraph') . '")<CR>'
+execute 'nnoremap <silent> } }:<C-U>call speech#Speak("'
+      \ . speech#locale#GetToken('next_paragraph') . '")<CR>'
 
-nnoremap <silent> s h:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
-nnoremap <silent> t l:<C-U>call speech#PreserveCursor('call speech#Movement("yl",0,"")')<CR>
 
-nnoremap <silent> n j:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
-nnoremap <silent> r k:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+" MAPPING of f, F, t, T, colon and semicolon.
+nnoremap <silent> , ,:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+nnoremap <silent> ; ;:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
+
+nnoremap <silent> f :<C-U>call speech#normal_mode#FindChar("f")<CR>
+nnoremap <silent> F :<C-U>call speech#normal_mode#FindChar("F")<CR>
+if g:speech#keyboard_layout ==? "neo"
+  nnoremap <silent> h :<C-U>call speech#normal_mode#FindChar("t")<CR>
+  nnoremap <silent> H :<C-U>call speech#normal_mode#FindChar("T")<CR>
+else
+  nnoremap <silent> t :<C-U>call speech#normal_mode#FindChar("t")<CR>
+  nnoremap <silent> T :<C-U>call speech#normal_mode#FindChar("T")<CR>
+endif
+
 
 
 " SECTION Give meta informations, i.e. current line number.
 " NOTE Remapping of l depends on my keyboard layout (Neo 2.0). It would be
 " stupid on QWERTY.
-nmap l <Nop>
-nmap <silent> lL :<C-U>call speech#Linenumber()<CR>
-nmap <silent> lP :<C-U>call speech#Position()<CR>
+execute 'nmap '. g:speech#leader_key . ' <Nop>'
+execute 'nmap <silent> ' . g:speech#leader_key . 'L :<C-U>call speech#Linenumber()<CR>'
+execute 'nmap <silent> ' . g:speech#leader_key . 'P :<C-U>call speech#Position()<CR>'
 
 " SECTION Spelling text of following movement operation.
-nmap <silent> ll :<C-U>call speech#Line(v:count1)<CR>
+execute 'nmap <silent> ' . g:speech#leader_key . 'l :<C-U>call speech#Line(v:count1)<CR>'
 
 " Note that yanking set the cursor position on the first yanked character.
 " `] can move the cursor to the last yanked character, but this does not help
 " in all cases.
 " Thus, the following operations are wrapped into a function which preserves 
 " the cursor position.
-nnoremap <silent> lw :<C-U>call speech#PreserveCursor('call speech#Movement("yaw",v:count,"")')<CR>
-nnoremap <silent> lW :<C-U>call speech#PreserveCursor('call speech#Movement("yaW",v:count,"")')<CR>
-nnoremap <silent> lc :<C-U>call speech#PreserveCursor('call speech#Movement("yl",v:count,"")')<CR>
-nnoremap <silent> ls :<C-U>call speech#PreserveCursor('call speech#Movement("yas",v:count,"")')<CR>
-nnoremap <silent> lp :<C-U>call speech#PreserveCursor('call speech#Movement("yap",v:count,"")')<CR>
 
-nnoremap <silent> l[ :<C-U>call speech#PreserveCursor('call speech#Movement("y[[`]",v:count,"")')<CR>
-nnoremap <silent> l] :<C-U>call speech#PreserveCursor('call speech#Movement("y]]",v:count,"")')<CR>
-nnoremap <silent> l( :<C-U>call speech#PreserveCursor('call speech#Movement("y(`]",v:count,"")')<CR>
-nnoremap <silent> l) :<C-U>call speech#PreserveCursor('call speech#Movement("y)",v:count,"")')<CR>
-nnoremap <silent> lb :<C-U>call speech#PreserveCursor('call speech#Movement("yab",v:count,"")')<CR>
+" FUNCTION Keybind1
+" Helper function to reduce redundance.
+function! s:Keybind1(key, movement)
+  " Define layers of complex command in three steps.
+  " 1. Vim mapping command + key combination
+  let l:mapping_key = 'nnoremap <silent> ' . g:speech#leader_key . a:key
 
-nnoremap <silent> l{ :<C-U>call speech#PreserveCursor('call speech#Movement("y{`]",v:count,"")')<CR>
-nnoremap <silent> l} :<C-U>call speech#PreserveCursor('call speech#Movement("y}",v:count,"")')<CR>
-nnoremap <silent> lB :<C-U>call speech#PreserveCursor('call speech#Movement("yaB",v:count,"")')<CR>
+  " 2. Target of mapping. It's a function call prefixed with :<C-U>
+  let l:mapping_target = ' :<C-U>call speech#PreserveCursor('
+  
+  " 3. Argument of target function. It's a function name
+  " (speech#Movement) + arguments. The first argument was given to Keybind1.
+  " Attention, the whole string is wrapped into single quotes (the "'"-token).
+  let l:target_argument = "'" . 'call speech#Movement("'
+        \ . a:movement . '",v:count,"")' . "'"
+  
+  " 4. Closing bracket for step 2 and Return key.
+  let l:mapping_target_close = ')<CR>'
 
-"nnoremap <silent> l< :<C-U>call speech#PreserveCursor('call speech#Movement("y<`]",v:count,"")')<CR>
-nnoremap <silent> l< :<C-U>call speech#PreserveCursor('call speech#Movement("ya<]",v:count,"")')<CR>
-nnoremap <silent> l> :<C-U>call speech#PreserveCursor('call speech#Movement("ya>",v:count,"")')<CR>
-nnoremap <silent> lt :<C-U>call speech#PreserveCursor('call speech#Movement("yat",v:count,"")')<CR>
-nnoremap <silent> l" :<C-U>call speech#PreserveCursor('call speech#Movement("ya\"",v:count,"")')<CR>
-nnoremap <silent> l' :<C-U>call speech#PreserveCursor('call speech#Movement("ya\\\'",v:count,"")')<CR>
-nnoremap <silent> lw :<C-U>call speech#PreserveCursor('call speech#Movement("yaw",v:count,"")')<CR>
-nnoremap <silent> lW :<C-U>call speech#PreserveCursor('call speech#Movement("yaW",v:count,"")')<CR>
-nnoremap <silent> lc :<C-U>call speech#PreserveCursor('call speech#Movement("yl",v:count,"")')<CR>
+  " Put it all together and execute.
+  execute l:mapping_key . l:mapping_target 
+        \ . l:target_argument . l:mapping_target_close
+
+  " Short form
+  "execute 'nnoremap <silent> ' . g:speech#leader_key . a:key
+  "      \ . ' :<C-U>call speech#PreserveCursor('."'".'call speech#Movement("' 
+  "      \ . a:movement . '",v:count,"")'."'".')<CR>'
+endfunction
+
+call s:Keybind1('w', 'yaw')
+call s:Keybind1('W', 'yaW')
+call s:Keybind1('c', 'yl')
+call s:Keybind1('s', 'yas')
+call s:Keybind1('p', 'yap')
+
+call s:Keybind1('[', 'y[[`]')
+call s:Keybind1(']', 'y]]')
+call s:Keybind1('(', 'y(`]')
+call s:Keybind1(')', 'y)')
+call s:Keybind1('b', 'yab')
+
+call s:Keybind1('{', 'y{`]')
+call s:Keybind1('}', 'y}')
+call s:Keybind1('B', 'yaB')
+
+"call s:Keybind1('<', 'y<`]')
+call s:Keybind1('<', 'ya<]')
+call s:Keybind1('>', 'ya>')
+call s:Keybind1('t', 'yat')
+call s:Keybind1('"', "ya\\\"")
+call s:Keybind1("'", "ya'")
+call s:Keybind1('w', 'yaw')
+call s:Keybind1('W', 'yaW')
+call s:Keybind1('c', 'yl')
+
 
 " SECTION Others
 " MAPPING Speech last visual selection
@@ -78,7 +137,7 @@ nmap <silent> v v<C-L><C-L>
 nmap <silent> V V<C-L><C-L>
 nmap <silent> <C-V> <C-V><C-L><C-L>
 
-" Workaround, no does not work, too:
+" Older approach. Does not work.
 "nnoremap <silent> v :<C-U>call speech#general#CheckMode('v')<CR>v
 "nnoremap <silent> v :<C-U>call speech#general#PingMode('v')<CR>v
 
@@ -92,5 +151,4 @@ nmap <silent> <C-V> <C-V><C-L><C-L>
 
 
 " SECTION Return current Mode
-"nmap <leader>m :call Sget_mode(mode())<CR>
 nmap <expr> <silent> <leader>m speech#GetMode(mode())

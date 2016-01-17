@@ -43,6 +43,18 @@ let g:vs_langs = {
   \ 'available_speech_engines': {
     \ 'en': 'Available enignes: %s. Set g:speech#engine too use one of them as default output. Some su    broutines my override this setting. ',
     \ 'de': 'Verfügbare Sprachprogramme: %s. Setze die Variable g:speech#engine auf einen dieser Werte. Einige Unterfunktionen können diesen Wert allerdings ignorieren. '},
+  \ 'next_sentence': {
+    \ 'en': 'Next sentence. ',
+    \ 'de': 'Nächster Satz. '},
+  \ 'previous_sentence': {
+    \ 'en': 'Previous sentence. ',
+    \ 'de': 'Vorheriger Satz. '},
+  \ 'next_paragraph': {
+    \ 'en': 'Next paragraph. ',
+    \ 'de': 'Nächster Absatz. '},
+  \ 'previous_paragraph': {
+    \ 'en': 'Previous sentence. ',
+    \ 'de': 'Vorheriger Absatz. '},
   \ 'dummy entry': {
     \ 'en': 'example entry for copy and paste. ',
     \ 'de': 'Beispieleintrag zum Kopieren. '},
@@ -162,6 +174,10 @@ let g:vs_characters = {
     \ 'regex': '[α]',
     \ 'en': 'alpha',
     \ 'de': 'Alpha', },
+  \ '•': { 
+    \ 'regex': '[•]',
+    \ 'en': 'bullet',
+    \ 'de': 'Aufzählungspunkt', },
   \ 'dummy': {
     \ 'regex': '[d][u][m][m][y]',
     \ 'en': ' ',
