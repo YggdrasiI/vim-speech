@@ -14,18 +14,22 @@ endfunction
 " FUNCTION InputChar
 " Fetch and process char for f{char}, etc.
 "
-function! speech#normal_mode#FindChar(invoke_char)
+function! speech#normal_mode#FindChar(invoke_char, offset)
   let c = nr2char(getchar())
-  call feedkeys(a:invoke_char . c, 'nt')
+  "let l:spell_word = ":\<C-U>call speech#PreserveCursor('call speech#Movement(\"yiw\",0,\"\")')\<CR>"
+  let l:spell_word = ":\<C-U>call speech#normal_mode#FindCharPart2(\""
+        \ . l:c . '",' . a:offset . ")\<CR>"
+  
+  call feedkeys(a:invoke_char . l:c . l:spell_word, 'nt')
+endfunction
 
+function! speech#normal_mode#FindCharPart2(invoke_char, offset)
   " Check if cursor is now on requested character.
-  " Hm, this checks cursor position too early.
-  if getline('.')[col('.') - 1] ==? c
+  if getline('.')[col('.') - 1 + a:offset] ==? a:invoke_char
     " Speak out current word.
     call speech#PreserveCursor('call speech#Movement("yiw",0,"")')
   else
     " Play error sound
     call speech#sound#Error()
   endif
-
 endfunction

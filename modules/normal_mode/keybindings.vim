@@ -42,14 +42,14 @@ execute 'nnoremap <silent> } }:<C-U>call speech#Speak("'
 nnoremap <silent> , ,:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
 nnoremap <silent> ; ;:<C-U>call speech#PreserveCursor('call speech#Movement("yiw",0,"")')<CR>
 
-nnoremap <silent> f :<C-U>call speech#normal_mode#FindChar("f")<CR>
-nnoremap <silent> F :<C-U>call speech#normal_mode#FindChar("F")<CR>
+nnoremap <silent> f :<C-U>call speech#normal_mode#FindChar("f", 0)<CR>
+nnoremap <silent> F :<C-U>call speech#normal_mode#FindChar("F", 0)<CR>
 if g:speech#keyboard_layout ==? "neo"
-  nnoremap <silent> h :<C-U>call speech#normal_mode#FindChar("t")<CR>
-  nnoremap <silent> H :<C-U>call speech#normal_mode#FindChar("T")<CR>
+  nnoremap <silent> h :<C-U>call speech#normal_mode#FindChar("t", 1)<CR>
+  nnoremap <silent> H :<C-U>call speech#normal_mode#FindChar("T", -1)<CR>
 else
-  nnoremap <silent> t :<C-U>call speech#normal_mode#FindChar("t")<CR>
-  nnoremap <silent> T :<C-U>call speech#normal_mode#FindChar("T")<CR>
+  nnoremap <silent> t :<C-U>call speech#normal_mode#FindChar("t", 1)<CR>
+  nnoremap <silent> T :<C-U>call speech#normal_mode#FindChar("T", -1)<CR>
 endif
 
 
