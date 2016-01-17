@@ -18,7 +18,7 @@ function! speech#normal_mode#FindChar(invoke_char, offset)
   let c = nr2char(getchar())
   "let l:spell_word = ":\<C-U>call speech#PreserveCursor('call speech#Movement(\"yiw\",0,\"\")')\<CR>"
   let l:spell_word = ":\<C-U>call speech#normal_mode#FindCharPart2(\""
-        \ . l:c . '",' . a:offset . ")\<CR>"
+        \ . escape(l:c, '"') . '",' . a:offset . ")\<CR>"
   
   call feedkeys(a:invoke_char . l:c . l:spell_word, 'nt')
 endfunction

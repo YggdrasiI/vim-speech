@@ -69,7 +69,7 @@ function! speech#Picospeech(text)
   "call system(g:speech#root_dir . "bash/picospeech -l '" . g:speech#language . "' &", a:text)
 
   " Debugging
-  "echom '(Pico) ' . a:text
+  echom '(Pico) ' . a:text
 endfunction
 
 
