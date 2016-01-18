@@ -156,3 +156,12 @@ nmap <silent> <C-V> <C-V><C-L><C-L>
 
 " SECTION Return current Mode
 nmap <expr> <silent> <leader>m speech#GetMode(mode())
+
+
+
+" SECTION Search
+nnoremap <expr> / speech#search#StartSearch('/')
+nnoremap <expr> ? speech#search#StartSearch('?')
+
+" SECTION Test
+nnoremap <expr> : speech#command_line#StartCommandLine(':')

@@ -91,9 +91,15 @@ endfunction
 " Spell linenumber of cursor.
 "
 function! speech#visual_mode#VisualSelectionLineNumbers() 
-  let curpos = getpos(".")
-  let curpos2 = getpos("v")
-  call speech#Speak( curpos[1] . ' to ' . curpos2[1] )
+  let l:first_line = getpos(".")[1]
+  let l:last_line = getpos("v")[1]
+  if l:first_line > l:last_line
+    let [l:first_line, l:last_line] = [l:last_line, l:first_line]
+  endif
+
+  call speech#Speak( printf(
+        \ speech#locale#GetToken('selection_range'),
+        \ l:first_line, l:last_line) )
   return ''
 endfunction
 

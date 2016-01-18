@@ -55,6 +55,12 @@ let g:vs_langs = {
   \ 'previous_paragraph': {
     \ 'en': 'Previous sentence. ',
     \ 'de': 'Vorheriger Absatz. '},
+  \ 'selection_range': {
+    \ 'en': '%s from %s',
+    \ 'de': '%s bis %s'},
+  \ 'selection_range_from': {
+    \ 'en': 'from %s to %s',
+    \ 'de': 'von %s bis %s'},
   \ 'dummy entry': {
     \ 'en': 'example entry for copy and paste. ',
     \ 'de': 'Beispieleintrag zum Kopieren. '},

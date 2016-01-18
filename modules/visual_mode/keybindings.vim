@@ -46,7 +46,7 @@ vmap  <silent> o <C-L><C-1><C-L><C-8><C-L><C-2>
 "vmap  <silent> O <C-L><C-1><C-L><C-9><C-L><C-2>
 
 
-" MAPPING play sound for change visual mode
+" MAPPING play sound for changing visual mode.
 vmap <expr> <silent> <C-L><C-L> speech#general#CheckMode('')
 vmap <silent> v v<C-L><C-L>
 vmap <silent> V V<C-L><C-L>
