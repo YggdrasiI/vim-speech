@@ -48,6 +48,7 @@ function! speech#general#GetCurrentVisualSelection()
   return ([l:selection_text, l:selection_range])
 endfunction
 
+
 " FUNCTION GetCurrentCharacter
 " Returns character under the cursor.
 "

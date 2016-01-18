@@ -1,7 +1,3 @@
-" NOTE Remapping of l depends on my keyboard layout (Neo 2.0). It would be
-" stupid on QWERTY.
-vmap l <Nop>
-
 " MAPPING Speech Mode
 vmap <expr> <silent> <leader>m speech#GetMode(mode())
 vmap <expr> <silent> <leader>l speech#Line(v:count1)
@@ -12,7 +8,7 @@ vmap <expr> <silent> <leader>s speech#visual_mode#VisualSelectionSpell({'max_num
 
 " SECTION Autospeak
 " SUBSECTION Movements
-" Approach: Call a expr key binding after changes of the visual selection
+" Approach: Call a expr key binding after changes of the visual selection.
 vmap <expr> <C-L><C-V> speech#visual_mode#VisualSelectionSpell({}, 0)
 vmap <expr> <C-L><C-1> speech#visual_mode#VisualSelectionSwapSelectedEnd1()
 vmap <expr> <C-L><C-2> speech#visual_mode#VisualSelectionSwapSelectedEnd2()
@@ -30,10 +26,17 @@ vmap <silent> ge ge<C-L><C-V>
 vmap <silent> gE gE<C-L><C-V>
 
 " MAPPING navigation movements
-vmap <silent> s h<C-L><C-4>
-vmap <silent> n j<C-L><C-3>
-vmap <silent> r k<C-L><C-3>
-vmap <silent> t l<C-L><C-4>
+if g:speech#keyboard_layout ==? "neo"
+  vmap <silent> s h<C-L><C-4>
+  vmap <silent> t l<C-L><C-4>
+  vmap <silent> n j<C-L><C-3>
+  vmap <silent> r k<C-L><C-3>
+else
+  vnoremap <silent> h h<C-L><C-4>
+  vnoremap <silent> l l<C-L><C-4>
+  vnoremap <silent> j j<C-L><C-3>
+  vnoremap <silent> k k<C-L><C-3>
+endif
 
 " MAPPING Swap selected end of selection
 "vmap <silent> o <C-L><C-1>o<C-L><C-2>

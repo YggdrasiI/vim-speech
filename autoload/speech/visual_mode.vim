@@ -92,9 +92,10 @@ endfunction
 "
 function! speech#visual_mode#VisualSelectionLineNumbers() 
   let curpos = getpos(".")
-  call speech#Speak( curpos[1] )
+  let curpos2 = getpos("v")
+  call speech#Speak( curpos[1] . ' to ' . curpos2[1] )
+  return ''
 endfunction
-vmap <expr> <C-L><C-4> speech#general#GetCurrentCharacter()
 
 
 " FUNCTION VisualSelectionSpellChar
