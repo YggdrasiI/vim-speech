@@ -28,7 +28,7 @@ let s:AS_word = 'word'
 let s:AS_modes = 'nv'
 
 " Save output of commands in a variable
-redir => g:messbuf
+"redir => g:messbuf
 "nnoremap <silent> : :execute 'redir END | echon g:messbuf | redir => g:messbuf":
 
 

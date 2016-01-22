@@ -6,7 +6,7 @@ function! speech#sound#Play(filename)
   "Note: Path should not contain the tilde as shortcut for $HOME.
   " It would not be resolved for paths sourounded by quotes.
   
-  call system('aplay "'. l:path . '" 1&> /dev/null &')
+  call system('aplay "'. l:path . '" 1> /dev/null &')
   "redraw!
 endfunction
 

@@ -3,8 +3,13 @@ vmap <expr> <silent> <leader>m speech#GetMode(mode())
 vmap <expr> <silent> <leader>l speech#Line(v:count1)
 "vmap <silent> <leader>l :<C-U>call speech#Line(v:count1)<CR> "Wrong
 
+vmap <expr> <silent> <leader>c speech#Char(v:count1)
+vmap <expr> <silent> <leader>w speech#Word(v:count1)
+vmap <expr> <silent> <leader>W speech#WORD(v:count1)
+
 " MAPPING Speech current selection. Truncate on ends if long
-vmap <expr> <silent> <leader>s speech#visual_mode#VisualSelectionSpell({'max_number_of_words': 10}, 0)
+vmap <expr> <silent> <leader>s speech#visual_mode#VisualSelectionSpell(
+      \ {'max_number_of_words': 10}, 0)
 
 " SECTION Autospeak
 " SUBSECTION Movements

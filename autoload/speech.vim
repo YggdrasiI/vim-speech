@@ -134,7 +134,11 @@ endfunction
 " Speech next n words (n movements with lowercase w motion).
 "
 function! speech#Word(count) 
+  " This can not be used in <expr>
   call speech#Motion(a:count, "w", "b")
+  
+  " New approach: ?
+  return ''
 endfunction
 
 
@@ -144,18 +148,27 @@ endfunction
 function! speech#WORD(count) 
   call speech#Motion(a:count, "W", "b")
   "let wordUnderCursor = expand("<cWORD>")
+  return ''
 endfunction
 
 
 "" FUNCTION Char
 " Speech next n characters under the cursor.
 "
-function! speech#Char(count) 
+function! speech#Char(count1) 
   let curpos = getpos(".")
-  execute 'normal! "sy'. max([1,a:count]) . 'k'
-  let text = speech#filter#FilterSingleCharacters(@s, 1)
-  call speech#Speak( Sfilter_linebreaks(l:text) )
-  call setpos (".", l:curpos )
+
+  " Old/bad approach
+  "execute 'normal! "sy'. max([1,a:count]) . 'k'
+  "let text = speech#filter#FilterSingleCharacters(@s, 1)
+  "call setpos (".", l:curpos )
+
+  " New approach
+  let l:text = getline(l:curpos[1])[l:curpos[2] - 1 : l:curpos[2] + a:count1 - 2]
+  let text = speech#filter#FilterSingleCharacters(l:text, 1)
+
+  call speech#Speak( speech#filter#FilterLinebreaks(l:text) )
+  return ''
 endfunction
 
 
@@ -290,7 +303,6 @@ function! speech#Motion(count, motion, premove)
     let msg = speech#filter#FilterSingleCharacters(@s, 1)
     call speech#Speak(l:msg )
   else
-    echo l:msg
     call speech#Speak(l:msg)
   endif
 endfunction

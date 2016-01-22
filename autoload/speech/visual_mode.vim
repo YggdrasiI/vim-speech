@@ -42,9 +42,32 @@ function! speech#visual_mode#VisualSelectionSpell(settings, save_settings)
       call speech#Speak(l:selected_text)
     else
       " Reduce spelling on head and tail of selection
-      let l:subwords = l:words[ 0:get(l:settings, 'substring_words_start', 2) - 1 ]
-            \+[' , ']
-            \+l:words[ l:lenwords-get(l:settings, 'substring_words_end', 2): ]
+      let l:number_of_words_begin = get(l:settings, 'substring_words_begin', 2)
+      let l:number_of_words_end = get(l:settings, 'substring_words_end', 2)
+
+      if 0 ==  get(l:settings, 'substring_both_sides', 0)
+        " Detect which side of selection is active and reduce spelled words
+        " for the other side.
+        let l:first_line = getpos(".")[1:2]
+        let l:last_line = getpos("v")[1:2]
+        if l:first_line[0] > l:last_line[0] 
+          let l:number_of_words_begin = 0
+        elseif l:first_line[0] == l:last_line[0] &&
+              \  l:first_line[1] == l:last_line[1] 
+          let number_of_words_begin = 0
+        else
+          let l:number_of_words_end = 0
+        endif
+      endif
+      echom l:number_of_words_begin . ", " . l:number_of_words_end
+      let l:subwords = []
+      if 0 < l:number_of_words_begin
+        let l:subwords += l:words[ 0 : l:number_of_words_begin - 1 ]
+      endif
+      if 0 < l:number_of_words_end
+        let l:subwords += [' , ']
+              \ + l:words[l:lenwords - l:number_of_words_end : l:lenwords - 1]
+      endif
       call speech#Speak( join(l:subwords) )
     endif
   endif

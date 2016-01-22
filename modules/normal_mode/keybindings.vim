@@ -103,7 +103,8 @@ function! s:Keybind1(key, movement)
   "      \ . a:movement . '",v:count,"")'."'".')<CR>'
 endfunction
 
-call s:Keybind1('w', 'yaw')
+silent execute 'nnoremap <silent> <expr> ' . g:speech#leader_key . 'w speech#get_text#Word(v:count)'
+"call s:Keybind1('w', 'yaw')
 call s:Keybind1('W', 'yaW')
 call s:Keybind1('c', 'yl')
 call s:Keybind1('s', 'yas')
@@ -125,9 +126,6 @@ call s:Keybind1('>', 'ya>')
 call s:Keybind1('t', 'yat')
 call s:Keybind1('"', "ya\\\"")
 call s:Keybind1("'", "ya'")
-call s:Keybind1('w', 'yaw')
-call s:Keybind1('W', 'yaW')
-call s:Keybind1('c', 'yl')
 
 
 " SECTION Others
@@ -157,11 +155,12 @@ nmap <silent> <C-V> <C-V><C-L><C-L>
 " SECTION Return current Mode
 nmap <expr> <silent> <leader>m speech#GetMode(mode())
 
-
-
-" SECTION Search
-nnoremap <expr> / speech#search#StartSearch('/')
-nnoremap <expr> ? speech#search#StartSearch('?')
-
+      
 " SECTION Test
-nnoremap <expr> : speech#command_line#StartCommandLine(':')
+"
+
+"nmap <silent> W :<C-U>call speech#get_text#Word(v:count1)<CR>
+"nmap <silent> W :<C-U>call speech#motion#Motion_w(v:count)<CR>
+nmap <silent> W :<C-U>call speech#motion#GetPositions('test', v:count1, 0)<CR>
+"nmap <silent> B :<C-U>call speech#get_text#Wordb(v:count1)<CR>
+
